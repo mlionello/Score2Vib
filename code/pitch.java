@@ -4,10 +4,10 @@ public void run() {
         audioRecord.read(audioBuffer, 0, audioBuffer.length);
         
         // Perform autocorrelation for each segment of audioBuffer
-        for (int ehi = 0; ehi < 3; ehi++) {
+        for (int ii = 0; ii < 3; ii++) {
             // Prepare data for FFT
             for (int k = 0; k < N; k++)
-                x[k].set(audioBuffer[audioBuffer.length / 3 * ehi + k], 0);
+                x[k].set(audioBuffer[audioBuffer.length / 3 * ii + k], 0);
 
             // Perform FFT
             X = fft(x);
@@ -48,7 +48,7 @@ public void run() {
             }
 
             // Calculate frequency from index of maximum autocorrelation value
-            freq[ehi] = FS / (float) max1;
+            freq[ii] = FS / (float) max1;
 
             // Calculate decibel level of the audio segment
             double p2 = 0;
@@ -56,9 +56,9 @@ public void run() {
                 p2 += audioBuffer[i];
             p2 /= audioBuffer.length;
             if (p2 == 0)
-                decibel[ehi] = Double.NEGATIVE_INFINITY;
+                decibel[ii] = Double.NEGATIVE_INFINITY;
             else
-                decibel[ehi] = 20.0 * Math.log10(p2 / 65535.0);
+                decibel[ii] = 20.0 * Math.log10(p2 / 65535.0);
         }
         counter++; // Increment counter
     }
